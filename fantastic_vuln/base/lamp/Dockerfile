@@ -1,15 +1,16 @@
 FROM debian:stable-slim
 
+ARG PHP_VERSION=7.2
 
 # need to install php package
-ENV PHP_PACKAGE="php7.2 php7.2-cli php7.2-fpm php7.2-common php7.2-opcache \
-	php7.2-readline php7.2-curl php7.2-xml php7.2-json php7.2-gd php7.2-mbstring \
-	php7.2-mysql php-mysql php7.2-xmlrpc php7.2-bcmath mime-support libapache2-mod-php7.2" \
+ENV PHP_PACKAGE="php${PHP_VERSION} php${PHP_VERSION}-cli php${PHP_VERSION}-fpm php${PHP_VERSION}-common php${PHP_VERSION}-opcache \
+	php${PHP_VERSION}-readline php${PHP_VERSION}-curl php${PHP_VERSION}-xml php${PHP_VERSION}-json php${PHP_VERSION}-gd php${PHP_VERSION}-mbstring \
+	php${PHP_VERSION}-mysql php-mysql php${PHP_VERSION}-xmlrpc php${PHP_VERSION}-bcmath mime-support libapache2-mod-php${PHP_VERSION}" \
     TOOLS_PACKAGE="python3 python3-pip net-tools wget curl lsb-release apt-transport-https dpkg-dev ca-certificates" \
     APACHE_MYSQL="apache2 default-mysql-server mysql-client mysql-server" \
-    PHP_SOCK=/var/run/php7.2-fpm.sock \
-    PHP_CONFIG=/etc/php/7.2/fpm \
-    PHP_INI=/etc/php/7.2/cli/php.ini \
+    PHP_SOCK=/var/run/php${PHP_VERSION}-fpm.sock \
+    PHP_CONFIG=/etc/php/${PHP_VERSION}/fpm \
+    PHP_INI=/etc/php/${PHP_VERSION}/cli/php.ini \
     PHP_ROOT=/opt/www \
     SUPERVISORCONF=/etc/supervisor/conf.d \
 	APACHE=/etc/apache2 \
@@ -41,7 +42,7 @@ COPY php_config/www.conf $PHP_CONFIG/pool.d
 COPY php_config/php-fpm.conf $PHP_CONFIG/
 COPY supervisor_config /etc/supervisor/
 COPY apache_config/apache2.conf apache_config/ports.conf $APACHE/
-COPY apache_config/sites-enabled/php.conf /$APACHE/sites-enabled/
+COPY apache_config/sites-enabled/php.conf $APACHE/sites-enabled/
 
 ENTRYPOINT [ "/usr/local/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf" ]
 
